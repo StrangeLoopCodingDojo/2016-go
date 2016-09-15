@@ -18,10 +18,38 @@ package minesweeper
 
 import "testing"
 
-func TestDoThing(t *testing.T) {
-	result := DoThing()
+func TestScenario1(t *testing.T) {
+	grid := NewGrid(8, 8)
+	grid.PlaceMine(5, 2)
 
-	if result != false {
-		t.Fatalf("%v is not true, but it should be.", result)
+	if !grid.HasMineAt(5, 2) {
+		t.Fatalf("there is no mine")
 	}
+
+	if grid.HasMineAt(5, 1) {
+		t.Fatalf("there is a mine")
+	}
+
+	// Verify: 4,1 says that there is a mine next to it.
+
+	if grid.NeighboringMinesCount(0, 0) != 0 {
+		t.Fatalf("there is a mine")
+	}
+
+	if grid.NeighboringMinesCount(7, 7) != 0 {
+		t.Fatalf("there is a mine")
+	}
+
+	if nc := grid.NeighboringMinesCount(4, 1); nc != 1 {
+		t.Fatalf("Neighboring count is: %#v doesn't = 1", nc)
+	}
+
+	if nc := grid.NeighboringMinesCount(4, 2); nc != 1 {
+		t.Fatalf("Neighboring count is: %#v doesn't = 1", nc)
+	}
+
+	if nc := grid.NeighboringMinesCount(5, 1); nc != 1 {
+		t.Fatalf("Neighboring count is: %#v doesn't = 1", nc)
+	}
+
 }
